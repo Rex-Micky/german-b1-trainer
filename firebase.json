@@ -5,8 +5,12 @@
       "firebase.json",
       ".firebaserc",
       "**/.*",
+      ".git/**",
+      "**/.git/**",
+      ".claude/**",
       "**/node_modules/**",
       "README.md",
+      "LICENSE",
       "firestore.rules",
       "firestore.indexes.json"
     ],
