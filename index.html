@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deutsch B1 · Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,600&family=Public+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand" onclick="goHome()">
+      <div class="logo">B1</div>
+      <div><h1>Deutsch&nbsp;Trainer</h1><p>Grammatik &amp; Vokabeln</p></div>
+    </div>
+    <div class="spacer"></div>
+    <nav class="mainnav">
+      <button class="navbtn on" id="nav-lernen" onclick="showSection('lernen')"></button>
+      <button class="navbtn" id="nav-grammar" onclick="showSection('grammar')"></button>
+      <button class="navbtn" id="nav-vocab" onclick="showSection('vocab')"></button>
+      <button class="navbtn" id="nav-pruefung" onclick="showSection('pruefung')"></button>
+    </nav>
+    <button class="iconbtn" id="authBtn" title="Fortschritt speichern" onclick="openAuth()"></button>
+    <button class="iconbtn" id="themeBtn" title="Hell / Dunkel" onclick="toggleTheme()"></button>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- GRAMMAR HOME -->
+  <div id="view-home" class="view on">
+    <div class="panel">
+      <div class="diffrow">
+        <span class="lab">Schwierigkeit</span>
+        <div class="seg" id="diffSeg">
+          <button data-l="e" onclick="setDiff('e')"><span class="sd"></span>Leicht</button>
+          <button data-l="m" onclick="setDiff('m')"><span class="sd"></span>Mittel</button>
+          <button data-l="h" onclick="setDiff('h')"><span class="sd"></span>Schwer</button>
+        </div>
+      </div>
+      <div class="diffhint" id="diffHint"></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n" id="s-answered">0</div><div class="l">Beantwortet</div></div>
+      <div class="stat g"><div class="n" id="s-correct">0</div><div class="l">Richtig</div></div>
+      <div class="stat s"><div class="n" id="s-acc">–</div><div class="l">Genauigkeit</div></div>
+      <div class="stat f"><div class="n" id="s-streak">0</div><div class="l">Serie</div></div>
+    </div>
+    <div class="eyebrow">Modus wählen</div>
+    <div class="modes">
+      <div class="mode c1" onclick="startExam(20)">
+        <div class="mi" id="mi-exam"></div><h3>Prüfung</h3>
+        <p>Zufällig gemischte Fragen wie in der echten B1-Prüfung.</p>
+        <div class="mini" onclick="event.stopPropagation()">
+          <span class="chip" onclick="startExam(10)">10</span><span class="chip" onclick="startExam(20)">20</span><span class="chip" onclick="startExam(40)">40</span>
+        </div>
+      </div>
+      <div class="mode c2" onclick="startRandom()">
+        <div class="mi" id="mi-bolt"></div><h3>Zufall</h3>
+        <p>15 neue Zufallsfragen aus allen Themen, sofortiges Feedback.</p>
+        <div class="mini"><span class="pill">Jedes Mal neu</span></div>
+      </div>
+      <div class="mode c3" onclick="startMistakes()">
+        <div class="mi" id="mi-target"></div><h3>Fehler</h3>
+        <p>Wiederhole gezielt die Fragen, die du falsch hattest.</p>
+        <div class="mini"><span class="pill" id="mistakeCount">0 offen</span></div>
+      </div>
+    </div>
+    <div class="eyebrow">Themen üben</div>
+    <div class="grid" id="topicGrid"></div>
+    <div class="footer"><span id="qTotal">0</span> Grammatikfragen · Fortschritt lokal gespeichert</div>
+  </div>
+
+  <!-- GRAMMAR QUIZ -->
+  <div id="view-quiz" class="view">
+    <div class="quizhead">
+      <button class="iconbtn" onclick="goHome()" title="Zurück" id="q-close"></button>
+      <span class="lvbadge" id="lvBadge">Mittel</span>
+      <div class="prog"><i id="pbar"></i></div>
+      <div class="qcount" id="qcount">1 / 1</div>
+    </div>
+    <div id="topicNote"></div>
+    <div id="qhost"></div>
+  </div>
+
+  <!-- GRAMMAR RESULT -->
+  <div id="view-result" class="view"></div>
+
+  <!-- VOCAB HOME -->
+  <div id="view-vocab" class="view"></div>
+
+  <!-- VOCAB GAME -->
+  <div id="view-vgame" class="view">
+    <div class="quizhead">
+      <button class="iconbtn" onclick="showSection('vocab')" title="Zurück" id="v-close"></button>
+      <span class="lvbadge" id="vBadge" style="background:var(--sun);color:#3a2a00">Vokabeln</span>
+      <div class="prog"><i id="vbar"></i></div>
+      <div class="qcount" id="vcount">1 / 1</div>
+    </div>
+    <div id="vhost"></div>
+  </div>
+
+  <!-- VOCAB RESULT -->
+  <div id="view-vresult" class="view"></div>
+
+  <!-- GESPRÄCH (AI conversation) -->
+  <div id="view-chat" class="view"></div>
+
+  <!-- LERNEN -->
+  <div id="view-lernen" class="view"></div>
+  <div id="view-lesson" class="view"></div>
+
+  <!-- PRÜFUNG -->
+  <div id="view-pruefung" class="view"></div>
+  <div id="view-exam" class="view"></div>
+  <div id="view-examresult" class="view"></div>
+</div>
+
+<div id="overlay" class="overlay" style="display:none"></div>
+<div id="toast" class="toast"></div>
+
+<script src="js/core.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/grammar.js"></script>
+<script src="js/vocab.js"></script>
+<script src="js/lernen.js"></script>
+<script src="js/pruefung.js"></script>
+<script src="js/gespraech.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/cloud.js"></script>
+<script src="js/content/grammar-questions.js"></script>
+<script src="js/content/vocabulary.js"></script>
+<script src="js/content/lessons.js"></script>
+<script src="js/content/exams.js"></script>
+<script src="js/boot.js"></script>
+
+<!-- Optional cloud sync: Firebase Auth + Firestore. Loads only online; the app works fully without it. -->
+<script type="module" src="js/firebase-sync.js"></script>
+</body>
+</html>
